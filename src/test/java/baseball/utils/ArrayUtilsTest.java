@@ -13,6 +13,22 @@ import org.junit.jupiter.params.provider.MethodSource;
 
 class ArrayUtilsTest {
 
+	@ParameterizedTest
+	@MethodSource("provideNumberAndArrays")
+	@DisplayName("자릿수별로 숫자를 분리하여 리스트에 담을 수 있다")
+	void testSeparateDigits(int number, List<Integer> answer) {
+		final List<Integer> separatedDigits = ArrayUtils.separateDigit(number);
+		assertThat(separatedDigits).containsExactlyElementsOf(answer);
+	}
+
+	@ParameterizedTest
+	@MethodSource("provideNumberAndArrays")
+	@DisplayName("숫자가 담긴 배열 리스트를 integer로 변환할 수 있다.")
+	void testReduceToInteger(int expectedNumber, List<Integer> numbers) {
+		final int reducedInt = ArrayUtils.reduceToInt(numbers);
+		assertThat(reducedInt).isEqualTo(expectedNumber);
+	}
+
 	static Stream<Arguments> provideNumberAndArrays() {
 		return Stream.of(
 			Arguments.of(100, Arrays.asList(1, 0, 0)),
@@ -22,13 +38,4 @@ class ArrayUtilsTest {
 			Arguments.of(99999, Arrays.asList(9, 9, 9, 9, 9))
 		);
 	}
-
-	@ParameterizedTest
-	@MethodSource("provideNumberAndArrays")
-	@DisplayName("자릿수별로 숫자를 분리하여 리스트에 담을 수 있다")
-	void testSeparateDigits(int number, List<Integer> answer) {
-		final List<Integer> separatedDigits = ArrayUtils.separateDigit(number);
-		assertThat(separatedDigits).containsExactlyElementsOf(answer);
-	}
-
 }

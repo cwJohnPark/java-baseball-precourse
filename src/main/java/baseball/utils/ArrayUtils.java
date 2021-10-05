@@ -16,4 +16,12 @@ public class ArrayUtils {
 		return result;
 	}
 
+	public static int reduceToInt(List<Integer> numbers) {
+		int result = 0;
+		for (int i = 0; i < numbers.size(); i++) {
+			result += numbers.get(i) * Math.pow(10, numbers.size() - 1 - i);
+		}
+
+		return result;
+	}
 }

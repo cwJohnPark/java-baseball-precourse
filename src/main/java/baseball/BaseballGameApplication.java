@@ -4,6 +4,7 @@ import baseball.controller.IBaseballGameController;
 import baseball.dto.HitResultDescription;
 import baseball.exception.InvalidUserInputException;
 import baseball.factory.BaseballGameFactory;
+import baseball.utils.AnswerGenerator;
 import nextstep.utils.Console;
 
 public class BaseballGameApplication {
@@ -16,7 +17,8 @@ public class BaseballGameApplication {
 
 	public void start() {
 		boolean continueGame = true;
-		int answer = 123;
+		int answer = AnswerGenerator.createThreeDigits();
+
 		while (continueGame) {
 			continueGame = hit(answer);
 		}
