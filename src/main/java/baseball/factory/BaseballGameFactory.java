@@ -6,6 +6,7 @@ import baseball.controller.BaseballGameController;
 import baseball.controller.IBaseballGameController;
 import baseball.service.BaseballGameService;
 import baseball.service.evaluate.status.BallStatusEvaluator;
+import baseball.service.evaluate.status.NothingStatusEvaluator;
 import baseball.service.evaluate.status.StrikeStatusEvaluator;
 
 public class BaseballGameFactory {
@@ -15,6 +16,7 @@ public class BaseballGameFactory {
 			new BaseballGameService(
 				Arrays.asList(
 					new StrikeStatusEvaluator(),
-					new BallStatusEvaluator())));
+					new BallStatusEvaluator(),
+					new NothingStatusEvaluator())));
 	}
 }

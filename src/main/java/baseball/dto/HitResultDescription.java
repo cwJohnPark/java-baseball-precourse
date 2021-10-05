@@ -9,20 +9,22 @@ import baseball.domain.HitStatusCount;
 public class HitResultDescription {
 
 	private final List<HitStatusDescription> hitStatusDescriptions;
+	private final boolean doDisplayCount;
 
-	public HitResultDescription(List<HitStatusDescription> hitStatusDescriptions) {
+	public HitResultDescription(List<HitStatusDescription> hitStatusDescriptions, boolean doDisplayCount) {
 		this.hitStatusDescriptions = hitStatusDescriptions;
+		this.doDisplayCount = doDisplayCount;
 	}
 
-	public static HitResultDescription from(HitResult hitResult) {
+	public static HitResultDescription from(HitResult hitResult, boolean doDisplayCount) {
 		final List<HitStatusCount> hitStatusCounts = HitStatusCount.removeNoCount(hitResult.getHitStatusCountList());
-		return new HitResultDescription(HitStatusDescription.from(hitStatusCounts));
+		return new HitResultDescription(HitStatusDescription.from(hitStatusCounts), doDisplayCount);
 	}
 
 	public String getDescription() {
 		StringBuilder description = new StringBuilder();
 		for (HitStatusDescription hitStatusCount : hitStatusDescriptions) {
-			description.append(hitStatusCount.count);
+			description.append(doDisplayCount ? hitStatusCount.count : "");
 			description.append(hitStatusCount.hitStatus);
 			description.append(" ");
 		}
