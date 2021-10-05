@@ -3,6 +3,7 @@ package baseball.domain;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 
 import baseball.exception.InvalidUserInputException;
@@ -16,6 +17,10 @@ public class HitNumber {
 
 	public HitNumber(List<Integer> numbers) {
 		this.numbers = numbers;
+	}
+
+	public List<Integer> getNumbers() {
+		return numbers;
 	}
 
 	public static HitNumber from(int input) throws InvalidUserInputException {
@@ -59,8 +64,18 @@ public class HitNumber {
 		}
 	}
 
-	public List<Integer> getNumbers() {
-		return numbers;
+	@Override
+	public boolean equals(Object o) {
+		if (this == o)
+			return true;
+		if (o == null || getClass() != o.getClass())
+			return false;
+		HitNumber hitNumber = (HitNumber)o;
+		return Arrays.equals(this.numbers.toArray(), hitNumber.numbers.toArray());
 	}
 
+	@Override
+	public int hashCode() {
+		return Objects.hash(numbers);
+	}
 }
