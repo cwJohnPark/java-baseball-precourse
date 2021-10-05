@@ -9,24 +9,29 @@ import nextstep.utils.Console;
 public class BaseballGameApplication {
 
 	private final IBaseballGameController gameController = BaseballGameFactory.createBaseballGameController();
-	private final int answer = 123;
 
 	public static BaseballGameApplication createNewGame() {
 		return new BaseballGameApplication();
 	}
 
 	public void start() {
-		hit();
+		boolean continueGame = true;
+		int answer = 123;
+		while (continueGame) {
+			continueGame = hit(answer);
+		}
+		System.out.println("3 개의 숫자를 모두 맞히셨습니다! 게임 끝");
 	}
 
-	private void hit() {
+	private boolean hit(int answer) {
 		System.out.print("숫자를 입력해주세요: ");
 		try {
 			final HitResultDescription resultDescription = gameController.hit(toInteger(Console.readLine()), answer);
 			System.out.println(resultDescription.getDescription());
-
+			return !resultDescription.isEqualToAnswer();
 		} catch (InvalidUserInputException e) {
 			System.err.println(e.getMessage());
+			return true;
 		}
 	}
 
