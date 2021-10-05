@@ -5,6 +5,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import baseball.exception.InvalidUserInputException;
 import baseball.utils.ArrayUtils;
 
 public class HitNumber {
@@ -17,44 +18,44 @@ public class HitNumber {
 		this.numbers = numbers;
 	}
 
-	public static HitNumber from(int input) {
+	public static HitNumber from(int input) throws InvalidUserInputException {
 		checkValidRange(input);
 		checkValidDigitCount(input);
-
 		checkNoRedundant(input);
 
 		return new HitNumber(ArrayUtils.separateDigit(input));
 	}
 
-	private static void checkValidDigitCount(int input) {
+	private static void checkValidDigitCount(int input) throws InvalidUserInputException {
 		final List<Integer> digits = ArrayUtils.separateDigit(input);
 		if (digits.size() != DIGIT_LIMIT) {
-			throw new IllegalArgumentException();
+			throw new InvalidUserInputException(input);
 		}
 
 		if (!VALID_DIGITS.containsAll(digits)) {
-			throw new IllegalArgumentException();
+			throw new InvalidUserInputException(input);
 		}
 	}
 
-	private static void checkNoRedundant(int input) {
+	private static void checkNoRedundant(int input) throws InvalidUserInputException {
 		final Set<Integer> checked = new HashSet<>();
+		int checkedNumber = input;
 		for (int i = 0; i < DIGIT_LIMIT; i++) {
-			checked.add(input % 10);
-			input /= 10;
+			checked.add(checkedNumber % 10);
+			checkedNumber /= 10;
 		}
 
 		if (checked.size() != DIGIT_LIMIT) {
-			throw new IllegalArgumentException();
+			throw new InvalidUserInputException(input);
 		}
 	}
 
-	private static void checkValidRange(int input) {
+	private static void checkValidRange(int input) throws InvalidUserInputException {
 		int maxExclusive = Double.valueOf(Math.pow(10, DIGIT_LIMIT)).intValue();
 		int minExclusive = 0;
 
 		if (input >= maxExclusive || input <= minExclusive) {
-			throw new IllegalArgumentException();
+			throw new InvalidUserInputException(input);
 		}
 	}
 
