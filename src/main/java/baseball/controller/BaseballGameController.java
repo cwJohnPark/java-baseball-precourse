@@ -23,10 +23,11 @@ public class BaseballGameController implements IBaseballGameController {
 		final HitResult hitResult = baseballGameService.evaluate(HitNumber.from(input), HitNumber.from(answer));
 
 		if (isNothing(hitResult)) {
-			return HitResultDescription.from(hitResult, false);
+			return HitResultDescription.createWrongAnswerWithNoCountDisplay(hitResult);
 		}
 
-		return HitResultDescription.from(hitResult, true);
+		return hitResult.isCorrectAnswer() ? HitResultDescription.createCorrectAnswer(hitResult) :
+			HitResultDescription.createWrongAnswer(hitResult);
 	}
 
 	private boolean isNothing(HitResult hitResult) {

@@ -27,6 +27,17 @@ class StrikeStatusEvaluatorTest {
 		);
 	}
 
+	static Stream<Arguments> provideAnswerHitNumber() throws Exception {
+		return Stream.of(
+			Arguments.of(HitNumber.from(123), HitNumber.from(123), true),
+			Arguments.of(HitNumber.from(789), HitNumber.from(789), true),
+			Arguments.of(HitNumber.from(123), HitNumber.from(134), false),
+			Arguments.of(HitNumber.from(123), HitNumber.from(456), false),
+			Arguments.of(HitNumber.from(123), HitNumber.from(341), false),
+			Arguments.of(HitNumber.from(123), HitNumber.from(312), false)
+		);
+	}
+
 	@ParameterizedTest
 	@MethodSource("provideStrikeHitNumber")
 	@DisplayName("Strike 판정 테스트")
@@ -34,5 +45,13 @@ class StrikeStatusEvaluatorTest {
 		final HitStatusCount statusCount = strikeStatusEvaluator.evaluate(number, other);
 
 		assertThat(statusCount.getCount()).isEqualTo(expectedCount);
+	}
+
+	@ParameterizedTest
+	@MethodSource("provideAnswerHitNumber")
+	@DisplayName("정답 판정 테스트")
+	void testAnswer(HitNumber number, HitNumber other, boolean exepectedAnswer) {
+		final boolean isCorrectAnswer = strikeStatusEvaluator.isCorrectAnswer(number, other);
+		assertThat(isCorrectAnswer).isEqualTo(exepectedAnswer);
 	}
 }

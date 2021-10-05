@@ -24,6 +24,7 @@ public class BaseballGameApplication {
 		try {
 			final HitResultDescription resultDescription = gameController.hit(toInteger(Console.readLine()), answer);
 			System.out.println(resultDescription.getDescription());
+
 		} catch (InvalidUserInputException e) {
 			System.err.println(e.getMessage());
 		}

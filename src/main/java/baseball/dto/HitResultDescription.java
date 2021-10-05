@@ -10,15 +10,31 @@ public class HitResultDescription {
 
 	private final List<HitStatusDescription> hitStatusDescriptions;
 	private final boolean doDisplayCount;
+	private final boolean isEqualToAnswer;
 
-	public HitResultDescription(List<HitStatusDescription> hitStatusDescriptions, boolean doDisplayCount) {
+	public HitResultDescription(List<HitStatusDescription> hitStatusDescriptions,
+		boolean doDisplayCount,
+		boolean isEqualToAnswer) {
 		this.hitStatusDescriptions = hitStatusDescriptions;
 		this.doDisplayCount = doDisplayCount;
+		this.isEqualToAnswer = isEqualToAnswer;
 	}
 
-	public static HitResultDescription from(HitResult hitResult, boolean doDisplayCount) {
+	public static HitResultDescription createWrongAnswerWithNoCountDisplay(HitResult hitResult) {
+		return from(hitResult, false, false);
+	}
+
+	public static HitResultDescription createCorrectAnswer(HitResult hitResult) {
+		return from(hitResult, true, true);
+	}
+
+	public static HitResultDescription createWrongAnswer(HitResult hitResult) {
+		return from(hitResult, false, true);
+	}
+
+	public static HitResultDescription from(HitResult hitResult, boolean isEqualToAnswer, boolean doDisplayCount) {
 		final List<HitStatusCount> hitStatusCounts = HitStatusCount.removeNoCount(hitResult.getHitStatusCountList());
-		return new HitResultDescription(HitStatusDescription.from(hitStatusCounts), doDisplayCount);
+		return new HitResultDescription(HitStatusDescription.from(hitStatusCounts), doDisplayCount, isEqualToAnswer);
 	}
 
 	public String getDescription() {
@@ -30,6 +46,10 @@ public class HitResultDescription {
 		}
 
 		return description.toString();
+	}
+
+	public boolean isEqualToAnswer() {
+		return isEqualToAnswer;
 	}
 
 	private static class HitStatusDescription {

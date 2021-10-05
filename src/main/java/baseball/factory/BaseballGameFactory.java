@@ -17,6 +17,7 @@ public class BaseballGameFactory {
 				Arrays.asList(
 					new StrikeStatusEvaluator(),
 					new BallStatusEvaluator(),
-					new NothingStatusEvaluator())));
+					new NothingStatusEvaluator()),
+				new StrikeStatusEvaluator()));
 	}
 }
