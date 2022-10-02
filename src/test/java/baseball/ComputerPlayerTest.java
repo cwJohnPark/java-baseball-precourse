@@ -11,7 +11,7 @@ class ComputerPlayerTest {
         final int expectedBaseBallCount = 3;
         ComputerPlayer computerPlayer = new ComputerPlayer();
 
-        computerPlayer.selectRandomBaseBalls();
+        computerPlayer.setRandomBaseBalls();
 
         BaseBalls baseBalls = computerPlayer.getBaseBalls();
 
