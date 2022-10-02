@@ -1,5 +1,7 @@
 package baseball;
 
+import java.util.Scanner;
+
 public class Application {
     private static BaseBallGame baseBallGame;
 
@@ -21,6 +23,7 @@ public class Application {
         computerPlayer.setRandomBaseBalls();
         Player player = new Player(computerPlayer);
 
-        return new BaseBallGame(player);
+        InputController inputController = new InputController(new Scanner(System.in));
+        return new BaseBallGame(player, inputController);
     }
 }

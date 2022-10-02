@@ -1,19 +1,20 @@
 package baseball;
 
-import java.util.ArrayList;
+import baseball.utils.NumberUtils;
+
 import java.util.List;
-import java.util.Scanner;
 
 import static baseball.Prompt.*;
+import static java.lang.String.format;
 
 public class BaseBallGame {
 
     private final Player player;
-    private final Scanner scanner;
+    private final InputController inputController;
 
-    public BaseBallGame(Player player) {
+    public BaseBallGame(Player player, InputController inputController) {
         this.player = player;
-        this.scanner = new Scanner(System.in);
+        this.inputController = inputController;
     }
 
     public GameControlCode play() {
@@ -24,7 +25,7 @@ public class BaseBallGame {
             BaseBalls baseBalls = BaseBalls.createBaseBalls(inputNumbers);
             hitResult = player.hit(baseBalls);
             println(hitResult.getResultText());
-        } while (!isSuccess(hitResult));
+        } while (!hitResult.isSuccess());
 
         printSuccessPrompt();
         return getControlCode();
@@ -37,26 +38,21 @@ public class BaseBallGame {
     }
 
     private GameControlCode getControlCode() {
-        String input = scanner.nextLine();
-        return GameControlCode.of(input);
+        return inputController.input(
+                this::validateGameControlCode,
+                GameControlCode::of);
     }
 
-    public boolean isSuccess(HitResult hitResult) {
-        return hitResult.isSuccess();
+    private void validateGameControlCode(String input) {
+        if (!NumberUtils.isIntegerInRange(input,1, 2)) {
+            throw new IllegalArgumentException(format("'%s'는 올바른 게임 제어 코드가 아닙니다", input));
+        }
     }
 
     private List<Integer> getBaseBallsInput() {
-        String input = scanner.nextLine();
-        return toNumbers(input);
-    }
-
-    private List<Integer> toNumbers(String input) {
-        List<Integer> numbers = new ArrayList<>();
-        for (char digit : input.toCharArray()) {
-            numbers.add(Character.getNumericValue(digit));
-        }
-
-        return numbers;
+        return inputController.input(
+                BaseBallValidator::isValidBaseBallInput,
+                NumberUtils::toNumbers);
     }
 
     private void println(String prompt) {

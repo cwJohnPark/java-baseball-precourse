@@ -5,11 +5,9 @@ import camp.nextstep.edu.missionutils.Randoms;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ComputerPlayer {
+import static baseball.BaseBallConstants.*;
 
-    private final static int BASEBALL_MIN = 1;
-    private final static int BASEBALL_MAX = 9;
-    private final static int BASEBALL_COUNT = 3;
+public class ComputerPlayer {
 
     private BaseBalls baseBalls;
 
