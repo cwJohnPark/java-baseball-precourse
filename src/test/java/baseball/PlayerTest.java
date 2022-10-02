@@ -21,7 +21,7 @@ class PlayerTest {
 
     private static MockedStatic<Randoms> randoms;
 
-    List<Integer> COMPUTER_BALLS = Lists.newArrayList(4, 5, 6);
+    int[] COMPUTER_BALLS = new int[] {4, 5, 6};
 
     @BeforeAll
     static void setUp() {
@@ -46,8 +46,8 @@ class PlayerTest {
     private ComputerPlayer getComputerPlayer() {
         ComputerPlayer computerPlayer = new ComputerPlayer();
 
-        when(Randoms.pickUniqueNumbersInRange(anyInt(), anyInt(), anyInt()))
-                .thenReturn(COMPUTER_BALLS);
+        when(Randoms.pickNumberInRange(anyInt(), anyInt()))
+                .thenReturn(COMPUTER_BALLS[0], COMPUTER_BALLS[1], COMPUTER_BALLS[2]);
         computerPlayer.setRandomBaseBalls();
         return computerPlayer;
     }
@@ -66,7 +66,7 @@ class PlayerTest {
                         "1볼"),
                 Arguments.of(
                         Lists.newArrayList(4,3,5),
-                        "1볼1스트라이크"),
+                        "1볼 1스트라이크"),
                 Arguments.of(
                         Lists.newArrayList(1,2,3),
                         "낫싱")

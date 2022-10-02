@@ -2,6 +2,7 @@ package baseball;
 
 import camp.nextstep.edu.missionutils.Randoms;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class ComputerPlayer {
@@ -17,8 +18,16 @@ public class ComputerPlayer {
     }
 
     public void setRandomBaseBalls() {
-        List<Integer> ballNumbers = Randoms.pickUniqueNumbersInRange(BASEBALL_MIN, BASEBALL_MAX, BASEBALL_COUNT);
+        List<Integer> ballNumbers = getRandoms();
         baseBalls = BaseBalls.createBaseBalls(ballNumbers);
+    }
+
+    private List<Integer> getRandoms() {
+        List<Integer> randomNumbers = new ArrayList<>();
+        for (int i = 0; i < BASEBALL_COUNT; i++) {
+            randomNumbers.add(Randoms.pickNumberInRange(BASEBALL_MIN, BASEBALL_MAX));
+        }
+        return randomNumbers;
     }
 
     public BaseBalls getBaseBalls() {

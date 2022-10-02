@@ -12,4 +12,8 @@ public class Player {
         Hints hints = computerPlayer.hit(baseBalls);
         return HitResult.create(hints);
     }
+
+    public void resetComputerPlayer() {
+        computerPlayer.setRandomBaseBalls();
+    }
 }
