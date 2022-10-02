@@ -1,7 +1,5 @@
 package baseball;
 
-import org.assertj.core.util.Lists;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -9,12 +7,17 @@ public class BaseBalls {
 
     private final List<BaseBall> baseBalls;
 
-    public BaseBalls(BaseBall ...baseBalls) {
-        this.baseBalls = Lists.newArrayList(baseBalls);
-    }
-
     public BaseBalls(List<BaseBall> baseBalls) {
         this.baseBalls = baseBalls;
+    }
+
+    public static BaseBalls createBaseBalls(int ...ballNumbers) {
+        final List<Integer> balls = new ArrayList<>();
+        for (int ballNumber : ballNumbers) {
+            balls.add(ballNumber);
+        }
+
+        return createBaseBalls(balls);
     }
 
     public static BaseBalls createBaseBalls(List<Integer> ballNumbers) {
@@ -32,18 +35,12 @@ public class BaseBalls {
     private Hints hit(List<BaseBall> playerBalls) {
         Hints hints = Hints.createEmpty();
 
-        for (BaseBall playerBall : playerBalls) {
-            hints.add(hit(playerBall));
+        if (baseBalls.size() != playerBalls.size()) {
+            throw new IllegalArgumentException("PlayerBall 개수가 다릅니다.");
         }
 
-        return hints;
-    }
-
-    private Hints hit(BaseBall playerBall) {
-        Hints hints = Hints.createEmpty();
-        for (BaseBall baseBall : baseBalls) {
-            Hint hit = baseBall.hit(playerBall);
-            hints.add(hit);
+        for (BaseBall baseBall: baseBalls) {
+            hints.add(baseBall.hit(playerBalls));
         }
 
         return hints;

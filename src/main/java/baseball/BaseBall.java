@@ -1,5 +1,8 @@
 package baseball;
 
+import java.util.ArrayDeque;
+import java.util.Deque;
+import java.util.List;
 import java.util.Objects;
 
 public class BaseBall {
@@ -10,6 +13,21 @@ public class BaseBall {
     public BaseBall(int number, int position) {
         this.number = number;
         this.position = position;
+    }
+
+    public Hint hit(List<BaseBall> playerBalls) {
+        return hit(new ArrayDeque<>(playerBalls));
+    }
+
+    private Hint hit(Deque<BaseBall> playerBalls) {
+        if (playerBalls.isEmpty()) {
+            return Hint.NOTHING;
+        }
+        BaseBall playerBall = playerBalls.poll();
+        if (!isSameNumber(playerBall)) {
+            return hit(playerBalls);
+        }
+        return hit(playerBall);
     }
 
     public Hint hit(BaseBall otherBall) {

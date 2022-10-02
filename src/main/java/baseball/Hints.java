@@ -1,73 +1,66 @@
 package baseball;
 
-import org.assertj.core.util.Lists;
-
-import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 
 public class Hints {
 
-    private final List<Hint> hints;
+    private final Map<Hint, Integer> hints;
 
-    public Hints(Hint... hints) {
-        this.hints = Lists.newArrayList(hints);
-    }
-
-    public Hints(List<Hint> hints) {
-        this.hints = hints;
+    private Hints() {
+        this.hints = new HashMap<>();
     }
 
     public static Hints createEmpty() {
-        return new Hints(new ArrayList<>());
-    }
-
-    public void add(Hints appendHints) {
-        for (Hint hint : appendHints.hints) {
-            add(hint);
-        }
+        return new Hints();
     }
 
     public void add(Hint hint) {
         if (hint == Hint.NOTHING) {
             return;
         }
-        hints.add(hint);
+        hints.merge(hint, 1, Integer::sum);
+    }
+
+    public void addAll(List<Hint> addedHints) {
+        for (Hint addedHint : addedHints) {
+            add(addedHint);
+        }
     }
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Hints other = (Hints) o;
+        if (isNothing() && other.isNothing()) {
             return true;
         }
-        if (o == null || getClass() != o.getClass()) {
-            return false;
-        }
-        Hints otherHints = (Hints) o;
-        if (isNothing(this) && isNothing(otherHints)) {
-            return true;
-        }
-        return containsAllElementsInAnyOrder(otherHints);
-    }
-
-    private boolean isNothing(Hints hints) {
-        return isNothing(hints.hints);
-    }
-
-    private boolean isNothing(List<Hint> hints) {
-        return hints.isEmpty() || (hints.size() == 1 && hints.contains(Hint.NOTHING));
-    }
-
-    private boolean containsAllElementsInAnyOrder(Hints other) {
-        List<Hint> otherHints = other.hints;
-        if (hints.size() != otherHints.size()) {
-            return false;
-        }
-        return this.hints.containsAll(otherHints) && otherHints.containsAll(this.hints);
+        return Objects.equals(hints, other.hints);
     }
 
     @Override
     public int hashCode() {
         return Objects.hash(hints);
+    }
+
+    public boolean isNothing() {
+        return isNothing(hints);
+    }
+
+    public boolean isNothing(Map<Hint, Integer> hints) {
+        return hints.isEmpty() ||
+                (hints.keySet().size() == 1 && hints.containsKey(Hint.NOTHING));
+    }
+
+
+    public int getCount(Hint hint) {
+        return contains(hint) ? hints.get(hint) : 0;
+    }
+
+    private boolean contains(Hint hint) {
+        return hints.containsKey(hint);
     }
 }

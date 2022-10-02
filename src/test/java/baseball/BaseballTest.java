@@ -21,36 +21,26 @@ class BaseballTest {
     private static Stream<Arguments> provideBaseBalls() {
         return Stream.of(
                 Arguments.of(
-                        new BaseBalls(
-                                new BaseBall(3, 1),
-                                new BaseBall(1, 2),
-                                new BaseBall(2, 3)),
-                        new BaseBalls(
-                                new BaseBall(3, 1),
-                                new BaseBall(9, 2),
-                                new BaseBall(1, 3)),
-                        new Hints(Hint.BALL, Hint.STRIKE)),
+                        BaseBalls.createBaseBalls(3,1,2),
+                        BaseBalls.createBaseBalls(3,9,1),
+                        createHints(Hint.BALL, Hint.STRIKE)),
                 Arguments.of(
-                        new BaseBalls(
-                                new BaseBall(3, 1),
-                                new BaseBall(1, 2),
-                                new BaseBall(2, 3)),
-                        new BaseBalls(
-                                new BaseBall(4, 1),
-                                new BaseBall(5, 2),
-                                new BaseBall(6, 3)),
-                        new Hints(Hint.NOTHING)),
+                        BaseBalls.createBaseBalls(3,1,2),
+                        BaseBalls.createBaseBalls(4,5,6),
+                        createHints(Hint.NOTHING)),
                 Arguments.of(
-                        new BaseBalls(
-                                new BaseBall(4, 1),
-                                new BaseBall(5, 2),
-                                new BaseBall(6, 3)),
-                        new BaseBalls(
-                                new BaseBall(4, 1),
-                                new BaseBall(5, 2),
-                                new BaseBall(6, 3)),
-                        new Hints(Hint.STRIKE, Hint.STRIKE, Hint.STRIKE))
+                        BaseBalls.createBaseBalls(4,5,6),
+                        BaseBalls.createBaseBalls(4,5,6),
+                        createHints(Hint.STRIKE, Hint.STRIKE, Hint.STRIKE))
                 );
+    }
+
+    private static Hints createHints(Hint ...addedHints) {
+        Hints hints = Hints.createEmpty();
+        for (Hint addedHint : addedHints) {
+            hints.add(addedHint);
+        }
+        return hints;
     }
 
 }
