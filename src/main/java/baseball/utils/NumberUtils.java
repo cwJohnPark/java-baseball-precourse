@@ -1,9 +1,11 @@
 package baseball.utils;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import camp.nextstep.edu.missionutils.Randoms;
+
+import java.util.*;
+
+import static baseball.BaseBallConstants.BASEBALL_MAX;
+import static baseball.BaseBallConstants.BASEBALL_MIN;
 
 public class NumberUtils {
 
@@ -65,5 +67,23 @@ public class NumberUtils {
         }
 
         return numbers;
+    }
+
+    public static List<Integer> getUniqueNumbers(int count) {
+        return new ArrayList<>(getUniqueNumbers(count, new HashSet<>()));
+    }
+
+    private static Set<Integer> getUniqueNumbers(int count, Set<Integer> uniqueNumbers) {
+        if (count == 0) {
+            return Collections.emptySet();
+        }
+
+        int randomNumber = Randoms.pickNumberInRange(BASEBALL_MIN, BASEBALL_MAX);
+        if (uniqueNumbers.contains(randomNumber)) {
+            return getUniqueNumbers(count, uniqueNumbers);
+        }
+        uniqueNumbers.add(randomNumber);
+        uniqueNumbers.addAll(getUniqueNumbers(count-1, uniqueNumbers));
+        return uniqueNumbers;
     }
 }
